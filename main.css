@@ -1,0 +1,236 @@
+/* Body and HTML */
+body, html {
+    height: 100%;
+    font-family: "Inconsolata", sans-serif;
+}
+  
+.bgimg {
+    position: relative;
+    background-position: center;
+    background-size: cover;
+    background-image: url("https://nyuad.nyu.edu/content/dam/nyuad/news/news/2023/march/falcon-ride/falcon-ride-033.jpg.transform/gallery-big/image.jpg");
+    min-height: 75%;
+}
+
+.bgimg::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7); /* Set background color with 30% transparency and leaning to white */
+    z-index: 0; /* Ensure the overlay is behind other elements */
+}
+
+header {
+    position: relative;
+  }
+  
+  .display-middle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index:1
+  }
+  
+  .center {
+    text-align: center;
+    z-index:1
+  }
+  
+  .text-white {
+    color: #25242b;
+    z-index: 2;
+    /* Add additional styling as needed */
+  }
+
+.top {
+    position: relative; /* Ensure proper stacking context for the menu band */
+    z-index: 1; /* Ensure the menu band is above the overlay */
+}
+
+.text-white {
+    color: #25242b;
+  }
+
+  .display-bottomright.center.padding-large {
+    background-color: white;
+    padding: 5px; /* Adjust the padding value as needed */
+  }
+  
+  
+  
+.display-middle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .center {
+    text-align: center;
+  }
+  
+
+  
+/* Navigation Links */
+.top {
+    position: fixed;
+    width: 100%;
+}
+  
+.row.padding.black {
+    display: flex;
+    justify-content: space-between;
+    background-color: #57068c !important;
+    color: #ffffff !important; /* Set text color to white with !important */
+}
+
+.row.padding.black a {
+    color: #ffffff; /* Set text color to white */
+}
+  
+.col.s3 {
+    flex: 1;
+    /* color: #25242b; */
+    color: #ffffff !important; /* Set text color to white with !important */
+}
+
+  
+.button.block.black {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    text-align: center;
+    text-decoration: none;
+}
+  
+/* Header */
+.display-bottomleft.center.padding-large.hide-small {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+  
+.display-middle.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+  
+.display-bottomright.center.padding-large {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+  
+.sand.grayscale.large {
+    background-color: #ffffff;
+    color: #000;
+}
+  
+.container {
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  
+.row.center.card.padding {
+    display: flex;
+    justify-content: center;
+}
+  
+.col.s6.tablink {
+    flex: 1;
+    cursor: pointer;
+}
+
+/* Contact/Area Container */
+.container {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px auto;
+    font-family: Georgia, serif; /* Add the font-family property */
+  }
+  
+  .container h5 {
+    margin-top: 0;
+    color: #333;
+    text-align: center; /* Center the h5 */
+  }
+  
+  .container p {
+    color: #555;
+    line-height: 1.6;
+  }
+  
+  .container ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    color: #555;
+  }
+  
+  .container ul li {
+    margin-bottom: 10px;
+  }
+  
+  .container p:last-child {
+    margin-bottom: 0;
+  }
+  
+  
+  /* Centering the content */
+  #where-content {
+    max-width: 700px;
+    margin: 0 auto; /* Horizontally center the content */
+    padding: 20px; /* Add padding inside the box */
+  }
+  
+  /* Styling the header */
+  #where-header {
+    text-align: center;
+    padding: 20px 0; /* Adjust top and bottom padding */
+  }
+  
+  /* Styling the image */
+  #where-image {
+    width: 100%;
+    border-radius: 10px; /* Rounded corners */
+  }
+  
+  /* Styling the form */
+  #where-form {
+    margin-top: 20px; /* Add space between image and form */
+  }
+  
+  /* Styling form inputs */
+  .input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px; /* Add space between inputs */
+    border: 1px solid #ccc; /* Border color and width */
+    border-radius: 5px; /* Rounded corners */
+  }
+  
+  /* Styling form button */
+  .button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #57068c; /* Button background color */
+    color: #fff; /* Button text color */
+    border-radius: 5px; /* Rounded corners */
+  }
+  
+  /* Hover effect on button */
+  .button:hover {
+    background-color: #333; /* Darker button color on hover */
+  }
+  

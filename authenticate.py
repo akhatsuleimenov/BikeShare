@@ -58,16 +58,16 @@ html_end = "</body></html>"
 
 if email and password:
     hashed_password = hash_password(password)
-    if action == "register":
+    if action == "Register":
         if user_exists(email):
             htmlhead()
             print("<h1>You are already registered, try to login.</h1>" + go_back_button + html_end)
         else:
             register_user(email, hashed_password)
-            print("Location: /~as13966/BikeShare/profile.html\n\n")
-    elif action == "login":
+            print("Location: ./profile.html\n\n")
+    elif action == "Login":
         if authenticate(email, hashed_password):
-            print("Location: /~as13966/BikeShare/profile.html\n\n")
+            print("Location: ./profile.html\n\n")
         else:
             htmlhead()
             print("<h1>User doesn't exist, try to register.</h1>" + go_back_button  + html_end)

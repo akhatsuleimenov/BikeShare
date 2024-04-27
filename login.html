@@ -45,17 +45,23 @@
                     return false; // Indicate that the email is not valid
                 } else {
                     submitButton.disabled = false;
+                    submitButton.style.backgroundColor = '#57068C';
                     emailMessageDisplay.innerHTML = '';
                     return true; // Indicate that the email is valid
                 }
             }
 
 
+             // Use the input event to capture all changes
+            emailInput.addEventListener('input', checkEmail);
+
+            // Initial check in case the field is pre-populated or on page refresh with data
+            checkEmail();
+
             document.getElementById('loginForm').addEventListener('submit', function(event) {
-                event.preventDefault(); // Prevent the default form submission
-                if (checkEmail()) { // Only proceed if the email check is passed
-                    var email = document.getElementById('email').value;
-                    var password = document.getElementById('password').value;
+                event.preventDefault();
+                var submitButton = document.getElementById('submit');
+                if (!submitButton.disabled) { 
 
                     // Use fetch to send a request to your server
                     fetch('login.py', {

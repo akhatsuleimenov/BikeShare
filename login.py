@@ -1,7 +1,5 @@
 #!/usr/bin/python3
 
-
-
 import cgi
 
 import hashlib
@@ -81,10 +79,10 @@ def main():
     # check if they are not empty
     if email and password:
         # if details correct then direct to profile page
-        if (email==password):
-            # session_id = generate_session_id()
-            # save_session(session_id, email)
-            # set_session_cookie(session_id)
+        if authenticate_user(email, password):
+            session_id = generate_session_id()
+            save_session(session_id, email)
+            set_session_cookie(session_id)
             print(json.dumps({"success": True, "message": "Login successful"}))
         else:
             # Send a JSON response

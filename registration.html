@@ -16,6 +16,10 @@
                         placeholder="Enter your first name" required>
                 </div>
                 <div class="input-box">
+                    <input type="text" name="second_name" id="second_name"
+                        placeholder="Enter your second name" required>
+                </div>
+                <div class="input-box">
                     <input type="text" name="last_name" id="last_name"
                         placeholder="Enter your last name" required>
                 </div>
@@ -25,12 +29,16 @@
                         placeholder="Enter your NYU email" required>
                 </div>
                 <div class="input-box">
-                    <input type="text" name="age" id="age"
-                        placeholder="Enter your age" required>
+                    <input type="number" name="age" id="age"
+                        placeholder="Enter your age" min="16" max="30" required>
                 </div>
                 <div class="input-box">
-                    <input type="text" name="year" id="year"
-                        placeholder="Enter your Class Year" required>
+                    <select name="year" id="year" required>
+                        <option value="freshman">Freshman</option>
+                        <option value="sophomore">Sophomore</option>
+                        <option value="junior">Junior</option>
+                        <option value="senior">Senior</option>
+                    </select>
                 </div>
                 <div class="input-box">
                     <input type="password" name="password" id="password"

@@ -10,9 +10,10 @@
         <div class="wrapper">
             <h2>NYUAD Bike-Share Login</h2>
             <img src="nyuad-logo.png" alt="NYUAD Logo" class="logo">
-            <form action="login.py" method="post">
+            <form id="loginForm" action="login.py" method="post">
+                <div id="emailMessage"></div>
                 <div class="input-box">
-                    <input type="text" placeholder="Enter your email"
+                    <input type="text" onkeyup="checkEmail()" placeholder="Enter your email"
                         id="email" name="email" required>
                 </div>
                 <div class="input-box">
@@ -20,7 +21,7 @@
                         id="password" name="password" required>
                 </div>
                 <div class="input-box button">
-                    <input type="submit" name="action" value="Login">
+                    <input type="submit" id="submit" name="action" value="Login">
                 </div>
                 <div class="text">
                     <h3>Don't have an account? <a
@@ -28,5 +29,66 @@
                 </div>
             </form>
         </div>
+
+        <script>
+            
+            function checkEmail() {
+                var email = document.getElementById('email').value;
+                var submitButton = document.getElementById('submit');
+                var emailMessageDisplay = document.getElementById('emailMessage');
+
+                if (!email.endsWith('@nyu.edu')) {
+                    submitButton.disabled = true;
+                    submitButton.style.backgroundColor = 'grey';
+                    emailMessageDisplay.style.color = 'red';
+                    emailMessageDisplay.innerHTML = 'Please use an NYU email address.';
+                    return false; // Indicate that the email is not valid
+                } else {
+                    submitButton.disabled = false;
+                    emailMessageDisplay.innerHTML = '';
+                    return true; // Indicate that the email is valid
+                }
+            }
+
+
+            document.getElementById('loginForm').addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent the default form submission
+                if (checkEmail()) { // Only proceed if the email check is passed
+                    var email = document.getElementById('email').value;
+                    var password = document.getElementById('password').value;
+
+                    // Use fetch to send a request to your server
+                    fetch('login.py', {
+                        method: 'POST',
+                        body: new URLSearchParams({
+                            'email': email,
+                            'password': password
+                        }),
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        }
+                    })
+                    .then(response => response.json())  // Process the JSON data in the response
+                    .then(data => {
+                        if (data.success) {
+                            // If login is successful, navigate to the profile or other page
+                            window.location.href = './profile.py';
+                        } else {
+                            // Show error message without navigating away from the page
+                            document.getElementById('emailMessage').style.color = 'red';
+                            document.getElementById('emailMessage').innerHTML = data.message;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+                }
+            });
+        </script>
+            
+
+            
+        </script>
+
     </body>
 </html>

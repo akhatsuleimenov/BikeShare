@@ -1,33 +1,20 @@
 #!/usr/bin/python3
 
+
+
 import cgi
+
 import hashlib
+
 import os
+
 import sqlite3
+
 import http.cookies
+
 import uuid
 
-def htmlhead():
-    print("Content-Type: text/html \n\n")
-    print('''
-
-	<!DOCTYPE html>
-	<html>
-	<head>
-	<title> Registration </title>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href='style.css' rel='stylesheet'>
-
-	</head>
-	<body>
-	''')
-
-def htmltail():
-    navigate = "<h3>Don't have an account?  <a href='registration.html'>Register</a></h3>"
-    html_end = "</body></html>"
-    return navigate + html_end
+import json
 
 
 def hash_password(password):
@@ -60,8 +47,8 @@ def set_session_cookie(session_id):
     
     # send cookie id and navigate to next page
     print(cookie.output())
-    print("Content-type: text/html\n")
-    print("Location: ./profile.py\n\n")
+    # print("Content-type: text/html\n")
+    # print("Location: ./profile.py\n\n")
 
 
 def save_session(session_id, email):
@@ -82,6 +69,10 @@ def save_session(session_id, email):
 
 
 def main():
+    # Set HTTP header
+    print("Content-Type: application/json")
+    print()  # End of headers
+
     # get values from the form
     form = cgi.FieldStorage()
     email = form.getvalue("email")
@@ -89,17 +80,18 @@ def main():
 
     # check if they are not empty
     if email and password:
-        # if details correct them direct to profile page
+        # if details correct then direct to profile page
         if authenticate_user(email, password):
             session_id = generate_session_id()
             save_session(session_id, email)
             set_session_cookie(session_id)
-        # else navigate to register page
+            print(json.dumps({"success": True, "message": "Login successful"}))
         else:
-            htmlhead()
-            print("<h1>Username and password are incorrect, try to register?</h1>" + htmltail())
+            # Send a JSON response
+            print(json.dumps({"success": False, "message": "Username and password are incorrect. Please try again."}))
     else:
-        htmlhead()
-        print("<h1>Email and password are required.</h1>" + htmltail())
+        # Send a JSON response
+        print(json.dumps({"success": False, "message": "Email and password are required."}))
 
-main()
+if __name__ == "__main__":
+    main()

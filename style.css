@@ -46,6 +46,14 @@ h2 {
     box-sizing: border-box; /* Fixes padding and border issue */
 }
 
+.input-box select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #57068C;
+    border-radius: 5px;
+    box-sizing: border-box; /* Fixes padding and border issue */
+}
+
 /* Policy and Button Styling */
 .policy {
     margin: 20px 0;

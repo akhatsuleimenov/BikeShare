@@ -1,117 +1,104 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-<title>NYUAD Bikeshare</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="main.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bike</title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="responsive.css">
+    <link rel="shortcut icon" type="image/jpg" href="img/nyuad logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+        crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
 </head>
+
 <body>
+    <header>
+        <div class="header-wrapper">
+            <span class="menu-logo hp-viewport fas fa-ellipsis-h"></span>
+            <ul class="header-list">
+                <li class="header-content hp-viewport bike-header"><a href="#"><img class="logo" src="img/nyuad logo.png"></a></li>
+                <li class="header-content hp-viewport-hide"><a href="index.html">Home</a></li>
+                <li class="header-content hp-viewport-hide"><a href="about.html">About Us</a></li>
+                <li class="header-content hp-viewport-hide"><a href="bike.html">Book A Bike</a></li>
+                <li class="header-content hp-viewport-hide"><a href="contact.html">Contact Us</a></li>
+                <li class="header-content hp-viewport-hide"><a href="registration.html">Register</a></li>
+                <li class="header-content hp-viewport-hide"><a href="login.html">Sign In</a></li>
+            </ul>
+        </div>
+    </header>
 
-<!-- Links (sit on top) -->
-<div class="top">
-  <div class="row padding black">
-    <div class="col s3">
-      <a href="#" class="button block black">HOME</a>
-    </div>
-    <div class="col s3">
-      <a href="about.html" class="button block black">ABOUT</a>
-    </div>
-    <div class="col s3">
-      <a href="registration.html" class="button block black">REGISTER</a>
-    </div>
-    <div class="col s3">
-      <a href="login.html" class="button block black">LOG IN</a>
-    </div>
-  </div>
-</div>
+    <main>
+        <div class="bgimg display-container">
+            <div class="display-middle center">
+              <span class="text-white" style="font-size:100px">NYUAD<br>Bikeshare</span>
+            </div>
+        </div>
 
-<!-- Header with image -->
-<header class="bgimg display-container grayscale-min" id="home">
-  <div class="display-middle center">
-    <span class="text-white" style="font-size:100px">NYUAD<br>Bikeshare</span>
-  </div>
-  <div class="display-bottomright center padding-large">
-    <span class="text-white">NYUAD Bike Room, B2 Level</span>
-  </div>
-</header>
+        <div class="section-container">
 
-<!-- Add a background color and large text to the whole page -->
-<div class="sand grayscale large">
+            <!-- Booking Form Section -->
+            <section id="booking-form" class="centered-section">
+                <h2>Register or Log in to Book a Bike</h2>
+            </section>
+            
+            <!-- Available Bikes Section -->
+            <section id="available-bikes" class="centered-section">
+                <h2>Available Bikes</h2>
+                <div class="bike-container">
+                    <div class="bike-card">
+                        <img class="bike-image" src="img/mountain bike.jpeg" alt="Mountain Bike">
+                        <div class="bike-label">Mountain Bike</div>
+                    </div>
+                    <div class="bike-card">
+                        <img class="bike-image" src="img/road bike.jpeg" alt="Road Bike">
+                        <div class="bike-label">Road Bike</div>
+                    </div>
+                    <div class="bike-card">
+                        <img class="bike-image" src="img/hybrid bike.jpeg" alt="Hybrid Bike">
+                        <div class="bike-label">Hybrid Bike</div>
+                    </div>
+                </div>
+            </section>
 
-<!-- About Container -->
-<div class="container" id="about">
-    <div class="content" style="max-width:700px">
-      <!-- Additional content about NYUAD BikeShare program -->
-      <div class="panel leftbar light-grey" style="padding: 20px;">
-        <h5 style="margin-top: 0;">NYUAD BikeShare Program</h5>
-        <p>The NYUAD BikeShare program allows you to borrow bikes and explore Saadiyat in a fun, eco-friendly way!</p>
-        <p>BikeShare Program Guidelines:</p>
-        <ul>
-          <li>Bikes are available to be loaned out over a 5-day period.</li>
-          <li>The link to request a bike will be posted on the Student Portal on Tuesday mornings.</li>
-          <li>Students can't sign up for a bike 2 times in a row.</li>
-          <li>Bikes will be picked up Thursday and returned the following Tuesday (5 days total).</li>
-          <li>Any questions, please email nyuad.bikeshare@nyu.edu.</li>
-        </ul>
-        
-        <p>Bike Loans & Returns will be done during the following days & hours:</p>
-        <ul>
-          <li>Tuesday's & Thursday's</li>
-          <li>10:00am - 11:00am</li>
-          <li>1:00pm - 2:00pm</li>
-          <li>5:30pm - 6:30pm</li>
-        </ul>
-        
-        <p>Collection and return location will be NYUAD Bike Room, B2 Level. (Take the public elevator in front of A5, Go to Basement 2 and take a right. Its a couple of doors down, clearly labeled).</p>
-        
-        <p>Students shall maintain bikes in excellent condition and hose the bike if necessary. If bikes are returned damaged or dirty, students will be required to pay for damages or in extreme cases may lose their borrowing privilege.</p>
-        
-        <p>Possible charges for damages or cleanliness:</p>
-        <ul>
-          <li>AED 50 — Key replacement</li>
-          <li>AED 30 — Dirty bike</li>
-          <li>AED 50 — Lock replacement</li>
-          <li>AED 100 - Major damage to bike</li>
-        </ul>
-        
-        <p>A helmet is provided and must be worn at all times while riding an NYUAD bicycle. No exceptions. Failure to do so will result in a ban from the BikeShare program.</p>
-        
-        <p>Bikes must be locked securely when not in use, and the school helmet must not be left on the bike.</p>
-        
-        <p>The bikes are not to be taken off Saadiyat Island unless on a school-sponsored function.</p>
-        
-        <p>Long-term bike requests are reviewed on a case-by-case basis. A training schedule along with competition registration information must be submitted. This is only for athletes participating in competitions.</p>
-        
-        <p>Students requesting bikes for rental are responsible for the maintenance of their bikes. If there are any issues, reach out to the bike mechanics at nyuad.bikeshare@nyu.edu.</p>
-        
-        <p>A student may check out one of the following bikes for the loan period:</p>
-        <ul>
-          <li>Mountain Bike - Small, Medium, Large</li>
-          <li>Road Bike - Small, Medium, Large</li>
-          <li>Hybrid Bike- Small, Medium, Large</li>
-        </ul>
-      </div>
-      
-    </div>
-  </div>
-  
-
-<!-- Contact/Area Container -->
-<div id="where" style="padding-bottom: 32px;">
-    <div id="where-content" style="max-width: 700px; margin: 0 auto;">
-      <h5 style="text-align: center; padding: 48px 0;"><span style="font-size: 24px;">SIGN UP FOR OUR NEWSLETTER</span></h5>
-      <p><span style="font-size: 14px;">Stay updated with the latest news and events!</span></p>
-      <p><span style="font-size: 14px;">To sign up, simply enter your email address below:</span></p>      
-      <form action="/action_page.php" target="_blank">
-        <p style="margin-bottom: 16px;"><input style="width: calc(100% - 32px); padding: 16px; border: 1px solid #ccc; border-radius: 5px;" type="text" placeholder="Name" required name="Name"></p>
-        <p style="margin-bottom: 16px;"><input style="width: calc(100% - 32px); padding: 16px; border: 1px solid #ccc; border-radius: 5px;" type="email" placeholder="Email"></p>
-        <p style="margin-bottom: 16px;"><input style="width: calc(100% - 32px); padding: 16px; border: 1px solid #ccc; border-radius: 5px;" type="text" placeholder="Message \ Special requirements" required name="Message"></p>
-        <p style="text-align: center; margin-bottom: 16px;">
-          <button style="width: calc(100% - 32px); padding: 16px; border: none; background-color: #57068c; color: #fff; border-radius: 5px;" type="submit">SEND MESSAGE</button>
-        </p>
-      </form>
-    </div>
-  </div>
-  
+            <!-- Testimonial Section -->
+            <section id="testimonial" class="centered-section">
+                <h2>Testimonials</h2>
+                <ul class="testimonial-cards">
+                    <li class="testimonial-card">
+                    <img src="img/test1.jpeg" alt="John Doe" class="testimonial-img">
+                    <p>"Booking a bike through this system has made my campus commute so much easier. Highly recommended!"</p>
+                    <footer>- Alex</footer>
+                    </li>
+                    <li class="testimonial-card">
+                    <img src="img/test2.jpeg" alt="Jane Smith" class="testimonial-img">
+                    <p>"I love the convenience of being able to rent a bike on campus. It's a great way to get around!"</p>
+                    <footer>- Jane</footer>
+                    </li>
+                    <li class="testimonial-card">
+                    <img src="img/test3.jpg" alt="Alex Doe" class="testimonial-img">
+                    <p>"The bike booking system has been a game-changer for me. It's fast, efficient, and reliable!"</p>
+                    <footer>- Faiza</footer>
+                    </li>
+                </ul>
+            </section>
+            
+            <!-- Map Section -->
+            <section id="map" class="centered-section">
+                <h2>Map</h2>
+                <iframe
+                    width="600"
+                    height="450"
+                    style="border:0"
+                    loading="lazy"
+                    allowfullscreen
+                    src="https://www.openstreetmap.org/export/embed.html?bbox=54.4075,24.5013,54.4572,24.5492&layer=mapnik&marker=24.5253,54.4372">
+                </iframe>
+            </section>
+        </div>
+    </main>
+</body>

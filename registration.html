@@ -10,7 +10,7 @@
         <div class="wrapper">
             <h2>NYUAD Bike-Share Registration</h2>
             <img src="nyuad-logo.png" alt="NYUAD Logo" class="logo">
-            <form action="cgi-bin/register.py" method="post">
+            <form action="register.py" method="POST">
                 <div class="input-box">
                     <input type="text" name="first_name" id="first_name"
                         placeholder="Enter your first name" required>
@@ -19,12 +19,16 @@
                     <input type="text" name="last_name" id="last_name"
                         placeholder="Enter your last name" required>
                 </div>
+                <div id="emailMessage"></div>
                 <div class="input-box">
-                    <input type="text" name="email" id="email"
+                    <input type="text" onkeyup="validateForm();" name="email"
+                        id="email"
                         placeholder="Enter your NYU email" required>
                 </div>
                 <div class="input-box">
                     <select name="year" id="year" required>
+                        <option value disabled selected>Choose your school
+                            year</option>
                         <option value="freshman">Freshman</option>
                         <option value="sophomore">Sophomore</option>
                         <option value="junior">Junior</option>
@@ -35,8 +39,10 @@
                     <input type="password" name="password" id="password"
                         placeholder="Create a password" required>
                 </div>
+                <div id="message"></div>
                 <div class="input-box">
-                    <input type="password" name="confirm_password"
+                    <input type="password" onkeyup="validateForm();"
+                        name="confirm_password" id="confirm_password"
                         placeholder="Confirm password" required>
                 </div>
                 <div class="policy">
@@ -46,12 +52,55 @@
                         Program.</label>
                 </div>
                 <div class="input-box button">
-                    <input type="submit" name="action" value="Register">
+                    <input type="submit" name="submit" id="submit"
+                        value="submit">
                 </div>
                 <div class="text">
                     <h3>Already registered? <a href="login.html">Log in</a></h3>
                 </div>
             </form>
         </div>
+
+        <script>
+        function validateForm() {
+                var password = document.getElementById('password').value;
+                var confirmPassword = document.getElementById('confirm_password').value;
+                var email = document.getElementById('email').value;
+                var emailMessageDisplay = document.getElementById('emailMessage');
+                var passwordMessageDisplay = document.getElementById('message');
+                var submitButton = document.getElementById('submit');
+
+                // Check if the email has the NYU domain
+                if (!email.endsWith('@nyu.edu')) {
+                    emailMessageDisplay.style.color = 'red';
+                    emailMessageDisplay.innerHTML = 'Please use an NYU email address.';
+                    submitButton.disabled = true;
+                    submitButton.style.backgroundColor = 'grey';
+                    return; // Stop the function if email is not valid
+                } else {
+                    emailMessageDisplay.innerHTML = '';
+                }
+
+                // Check if passwords match
+                if (password !== confirmPassword) {
+                    passwordMessageDisplay.style.color = 'red';
+                    passwordMessageDisplay.innerHTML = 'Password not matching! Please enter again';
+                    submitButton.disabled = true;
+                    submitButton.style.backgroundColor = 'grey';
+                } else {
+                    passwordMessageDisplay.innerHTML = '';
+                    // Enable submit only if both conditions are true
+                    submitButton.disabled = false;
+                    submitButton.style.backgroundColor = '#57068C';
+                }
+            }
+
+            // Bind the validateForm function to the keyup event for both fields
+            document.getElementById('email').addEventListener('keyup', validateForm);
+            document.getElementById('confirm_password').addEventListener('keyup', validateForm);
+            // You might want to also bind it to the password field if the user goes back to edit it
+            document.getElementById('password').addEventListener('keyup', validateForm);
+        </script>
+
     </body>
 </html>

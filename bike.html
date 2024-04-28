@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NYUAD Bike Share - Rent a Bike</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="styles.css"> <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="responsive.css">
+    <meta name="description" content="Rent a bike at NYUAD. Convenient, eco-friendly transportation around campus.">
+</head>
+<body>
+    <header>
+        <div class="header-wrapper">
+            <span class="menu-logo hp-viewport fas fa-ellipsis-h"></span>
+            <ul class="header-list">
+                <li class="header-content hp-viewport bike-header"><a href="#"><img class="logo" src="img/nyuad logo.png"></a></li>
+                <li class="header-content hp-viewport-hide"><a href="index.html">Home</a></li>
+                <li class="header-content hp-viewport-hide"><a href="about.html">About Us</a></li>
+                <li class="header-content hp-viewport-hide"><a href="bike.html">Book A Bike</a></li>
+                <li class="header-content hp-viewport-hide"><a href="contact.html">Contact Us</a></li>
+                <li class="header-content hp-viewport-hide"><a href="registration.html">Register</a></li>
+                <li class="header-content hp-viewport-hide"><a href="login.html">Sign In</a></li>
+            </ul>
+        </div>
+    </header>
+    <main>
+        <section class="intro">
+            <h1>NYUAD Bike Share Program</h1>
+            <p>Welcome to the NYUAD Bike Share. Use our bikes to travel conveniently around campus.</p>
+            <div class="bikes" style="display: flex; justify-content: space-around;">
+                <article class="bike">
+                    <img src="mountain-bike.jpg" alt="Mountain Bike" style="width: 100px; height: auto;">
+                    <h3>Mountain Bike</h3>
+                    <p>Perfect for off-road or rough terrain adventures.</p>
+                </article>
+                <article class="bike">
+                    <img src="road-bike.jpg" alt="Road Bike" style="width: 100px; height: auto;">
+                    <h3>Road Bike</h3>
+                    <p>Great for speed and long-distance riding on smooth surfaces.</p>
+                </article>
+                <article class="bike">
+                    <img src="hybrid-bike.jpg" alt="Hybrid Bike" style="width: 100px; height: auto;">
+                    <h3>Hybrid Bike</h3>
+                    <p>Combines the features of mountain and road bikes for versatility.</p>
+                </article>
+            </div>
+        </section>
+        <section class="booking-form">
+            <h2>Reserve a Bike</h2>
+            <form action="submit-reservation.py" method="POST">
+                <div class="form-group">
+                    <label for="bikeType">Choose Bike Type:</label>
+                    <select name="bikeType" id="bikeType" class="form-control">
+                        <option value="Mountain">Mountain Bike</option>
+                        <option value="Road">Road Bike</option>
+                        <option value="Hybrid">Hybrid Bike</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="date">Date:</label>
+                    <input type="date" id="date" name="date" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="timeSlot">Time Slot:</label>
+                    <select name="timeSlot" id="timeSlot" class="form-control">
+                        <option value="morning">Morning (8 AM - 12 PM)</option>
+                        <option value="afternoon">Afternoon (12 PM - 4 PM)</option>
+                        <option value="evening">Evening (4 PM - 8 PM)</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Book Now</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

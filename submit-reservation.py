@@ -1,44 +1,54 @@
 #!/usr/bin/python3
 
 import cgi
-import http.cookies as Cookie
+import csv
+
+from http.cookies import SimpleCookie
+
 import os
+
+import json
 
 # Path to the reservations file
 reservations_file = "reservations.txt"
+users_csv = "users.csv"
+session_csv = "sessions.csv"
 
-def html_response(message):
-    print("Content-Type: text/html\n")
-    print(f"<html><body>{message}</body></html>")
 
-def check_user_logged_in():
+def get_session_id_from_cookie():
+    """Retrieve session ID from HTTP cookie."""
     if 'HTTP_COOKIE' in os.environ:
-        cookie_string = os.environ.get('HTTP_COOKIE')
-        cookie = Cookie.SimpleCookie()
+        cookie_string = os.environ['HTTP_COOKIE']
+        cookie = SimpleCookie()
         cookie.load(cookie_string)
-        
         if 'session_id' in cookie:
             return cookie['session_id'].value
     return None
 
-def get_user_details(session_id):
-    """ This function would fetch user details from a file based on the session_id.
-        Assuming user details are stored in a file like 'user_sessions.txt'
-        Format: session_id, user_id, email
-    """
-    try:
-        with open("user_sessions.txt", "r") as file:
-            for line in file:
-                parts = line.strip().split(',')
-                if parts[0] == session_id:
-                    return parts[1:]  # Returns user_id, email
-        return None
-    except FileNotFoundError:
-        return None
+def get_email_from_session(session_id):
+    """Get user email from session using session ID."""
+    with open(session_csv, mode='r', newline='') as file:
+        reader = csv.reader(file)
+        for row in reader:
+            if row[0] == session_id:
+                return row[1]
+    return None
+
+def get_user_info(email):
+    """Retrieve user details from users CSV based on email."""
+    with open(users_csv, mode='r', newline='') as file:
+        reader = csv.DictReader(file, fieldnames=['first_name', 'last_name', 'email', 'hashed_password', 'year'])
+        for row in reader:
+            if row['email'] == email:
+                return row
+    return None
 
 def store_reservation(user_details, bike_type, date, time_slot):
+    full_name = f"{user_details['first_name']} {user_details['last_name']}"
+    email = user_details['email']
+    
     with open(reservations_file, "a") as file:
-        file.write(f"{user_details[0]}, {user_details[1]}, {bike_type}, {date}, {time_slot}\n")
+        file.write(f"{full_name}, {email}, {bike_type}, {date}, {time_slot}\n")
 
 def main():
     form = cgi.FieldStorage()
@@ -46,14 +56,29 @@ def main():
     date = form.getvalue('date')
     time_slot = form.getvalue('timeSlot')
     
-    session_id = check_user_logged_in()
-    user_details = get_user_details(session_id) if session_id else None
-    
-    if user_details:
-        store_reservation(user_details, bike_type, date, time_slot)
-        html_response("Your reservation has been successfully submitted.")
+    session_id = get_session_id_from_cookie()
+    if session_id:
+        email = get_email_from_session(session_id)
+        if email:
+            user_details = get_user_info(email)
+            if user_details:
+                store_reservation(user_details, bike_type, date, time_slot)
+                print("Content-Type: application/json")
+                print()  # End of headers
+                print(json.dumps({"success": True, "message": "Your reservation has been successfully submitted"}))
+
+            else:
+                print("Content-Type: application/json")
+                print()  # End of headers
+                print(json.dumps({"success": False, "message": "No user details found. Please check your registration."}))
+        else:
+            print("Content-Type: application/json")
+            print()  # End of headers
+            print(json.dumps({"success": False, "message": "Session not linked to a valid user"}))
     else:
-        html_response("You are not logged in. Please log in to make a reservation.")
+        print("Content-Type: application/json")
+        print()  # End of headers
+        print(json.dumps({"success": False, "message": "You are not logged in. Please log in to make a reservation."}))
 
 if __name__ == "__main__":
     main()

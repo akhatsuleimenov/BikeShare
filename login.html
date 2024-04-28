@@ -13,7 +13,7 @@
             <form id="loginForm" action="login.py" method="post">
                 <div id="emailMessage"></div>
                 <div class="input-box">
-                    <input type="text" onkeyup="checkEmail()" placeholder="Enter your email"
+                    <input type="text" placeholder="Enter your email"
                         id="email" name="email" required>
                 </div>
                 <div class="input-box">
@@ -32,27 +32,26 @@
 
         <script>
             
-            function checkEmail() {
-                var email = document.getElementById('email').value;
-                var submitButton = document.getElementById('submit');
-                var emailMessageDisplay = document.getElementById('emailMessage');
+            document.addEventListener('DOMContentLoaded', function() {
+            const emailInput = document.getElementById('email');
+            const submitButton = document.getElementById('submit');
+            const emailMessageDisplay = document.getElementById('emailMessage');
 
+            function checkEmail() {
+                const email = emailInput.value;
                 if (!email.endsWith('@nyu.edu')) {
                     submitButton.disabled = true;
                     submitButton.style.backgroundColor = 'grey';
                     emailMessageDisplay.style.color = 'red';
-                    emailMessageDisplay.innerHTML = 'Please use an NYU email address.';
-                    return false; // Indicate that the email is not valid
+                    emailMessageDisplay.textContent = 'Please use an NYU email address.';
                 } else {
                     submitButton.disabled = false;
-                    submitButton.style.backgroundColor = '#57068C';
-                    emailMessageDisplay.innerHTML = '';
-                    return true; // Indicate that the email is valid
+                    submitButton.style.backgroundColor = ''; // Reset to default or specify a color
+                    emailMessageDisplay.textContent = '';
                 }
             }
 
-
-             // Use the input event to capture all changes
+            // Use the input event to capture all changes
             emailInput.addEventListener('input', checkEmail);
 
             // Initial check in case the field is pre-populated or on page refresh with data
@@ -60,38 +59,31 @@
 
             document.getElementById('loginForm').addEventListener('submit', function(event) {
                 event.preventDefault();
-                var submitButton = document.getElementById('submit');
-                if (!submitButton.disabled) { 
+                if (!submitButton.disabled) { // Check if submit button is not disabled
+                    const email = emailInput.value;
+                    const password = document.getElementById('password').value;
 
-                    // Use fetch to send a request to your server
                     fetch('login.py', {
                         method: 'POST',
-                        body: new URLSearchParams({
-                            'email': email,
-                            'password': password
-                        }),
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        }
+                        body: new URLSearchParams({ 'email': email, 'password': password }),
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
                     })
-                    .then(response => response.json())  // Process the JSON data in the response
+                    .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            // If login is successful, navigate to the profile or other page
                             window.location.href = './profile.py';
                         } else {
-                            // Show error message without navigating away from the page
-                            document.getElementById('emailMessage').style.color = 'red';
-                            document.getElementById('emailMessage').innerHTML = data.message;
+                            emailMessageDisplay.style.color = 'red';
+                            emailMessageDisplay.textContent = data.message;
                         }
                     })
                     .catch(error => {
+                        console.log(response)
                         console.error('Error:', error);
                     });
                 }
             });
-        </script>
-            
+        });
 
             
         </script>

@@ -48,8 +48,9 @@
             </div>
         </section>
         <section class="booking-form">
+            <div id="statusMessage"></div>
             <h2>Reserve a Bike</h2>
-            <form action="submit-reservation.py" method="POST">
+            <form id="bikeForm" action="submit-reservation.py" method="POST">
                 <div class="form-group">
                     <label for="bikeType">Choose Bike Type:</label>
                     <select name="bikeType" id="bikeType" class="form-control">
@@ -70,9 +71,46 @@
                         <option value="evening">Evening (4 PM - 8 PM)</option>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary">Book Now</button>
+                <input type="submit"  id="submit" class="btn btn-primary" value="Book Now">
             </form>
         </section>
     </main>
+
+    <script>
+            
+        document.addEventListener('DOMContentLoaded', function() {
+        const submitButton = document.getElementById('submit');
+        const statusMessage = document.getElementById('statusMessage');
+        
+        document.getElementById('bikeForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            if (!submitButton.disabled) { // Check if submit button is not disabled
+                var bikeType = document.getElementById('bikeType').value;
+                var timeSlot = document.getElementById('timeSlot').value;
+                var date = document.getElementById('date').value;
+                fetch('submit-reservation.py', {
+                    method: 'POST',
+                    body: new URLSearchParams({ 'bikeType': bikeType, 'date': date, 'timeSlot': timeSlot }),
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // window.location.href = './bike.html';
+                        statusMessage.style.color = 'green';
+                        statusMessage.textContent = data.message;
+                    } else {
+                        statusMessage.style.color = 'red';
+                        statusMessage.textContent = data.message;
+                    }
+                })
+                .catch(error => {
+                    console.log(response)
+                    console.error('Error:', error);
+                });
+            }
+        });
+    });
+    </script>
 </body>
 </html>

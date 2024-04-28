@@ -1,36 +1,22 @@
 #!/usr/bin/python3
 
 import cgi
+
 import csv
+
 import hashlib
+
 from http.cookies import SimpleCookie
+
 import os
+
 import uuid
+
+import json
+
 
 users_csv = "users.csv"
 session_csv = "sessions.csv"
-
-def htmlhead():
-    print("Content-Type: text/html \n\n")
-    print('''
-
-	<!DOCTYPE html>
-	<html>
-	<head>
-	<title> Registration </title>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href='style.css' rel='stylesheet'>
-
-	</head>
-	<body>
-	''')
-
-def htmltail():
-    navigate = '<h3>Already registered? <a href="../login.html">Log in</a></h3>'
-    html_end = '</body></html>'
-    return navigate + html_end
 
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
@@ -53,6 +39,8 @@ def register_user(first_name, last_name, email, password, year):
     with open(users_csv, mode='a', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(user_info)
+    
+    return True
 
 def generate_session_id():
     return str(uuid.uuid4())
@@ -67,17 +55,11 @@ def set_session_cookie(session_id):
     cookie['session_id'] = session_id
     cookie['session_id']['httponly'] = True
     cookie['session_id']['path'] = '/'
-
-
-    # ASSUME THAT THIS WORKS    
-    # send cookie id and navigate to next page
     print(cookie.output())
-    print("Content-type: text/html\n")
-    print("Location: ./profile.py\n\n")
+    
 
 
 def main():
-    # get values from the form
     form = cgi.FieldStorage()
     email = form.getvalue("email")
     password = form.getvalue("password")
@@ -85,20 +67,23 @@ def main():
     last_name = form.getvalue("last_name")
     year = form.getvalue("year")
 
-    # check if they are not empty
-    if email and password:
-        # if user exists navigate them to login
+    if email and password and first_name and last_name and year:
         if user_exists(email):
-            htmlhead()
-            print("<h1>You are already registered, try to login.</h1>" + htmltail())
-        # else regsiter them and navigate to profile page
+            print("Content-Type: application/json")
+            print()
+            print(json.dumps({"success": False, "message": "You are already registered, try to login."}))
         else:
-            register_user(first_name, last_name, email, password, year)
-            session_id = generate_session_id()
-            save_session_to_csv(session_id, email)
-            set_session_cookie(session_id)
+                register_user(first_name, last_name, email, password, year)
+                session_id = generate_session_id()
+                save_session_to_csv(session_id, email)
+                set_session_cookie(session_id)
+                print("Content-Type: application/json")
+                print()
+                print(json.dumps({"success": True, "message": "Registration successful"}))
     else:
-        htmlhead()
-        print("<h1>Email and password are required.</h1>" + htmltail())
+        print("Content-Type: application/json")
+        print()   
+        print(json.dumps({"success": False, "message": "Email and password are required."}))
 
-main()
+if __name__ == "__main__":
+    main()

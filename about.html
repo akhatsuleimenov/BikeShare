@@ -14,20 +14,42 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    
+    <script defer>
+        function updateNavigation() {
+            fetch('authenticate_user.py')
+            .then(response => response.json())
+            .then(data => {
+                const navList = document.getElementById('navList');
+                const links = data.isLoggedIn ? [
+                    { href: 'index.html', title: 'Home' }, 
+                    { href: 'about.html', title: 'About' },
+                    { href: 'bike.html', title: 'Book a Bike' },
+                    { href: 'contact.html', title: 'Contact us' },
+                    { href: 'profile.py', title: 'My Profile' },
+                ] : [
+                    { href: 'index.html', title: 'Home' }, 
+                    { href: 'about.html', title: 'About' },
+                    { href: 'contact.html', title: 'Contact us' },
+                    { href: 'login.html', title: 'Sign In' },
+                    { href: 'registration.html', title: 'Register' }
+                ];
+
+                navList.innerHTML = links.map(link => `<li><a href="${link.href}">${link.title}</a></li>`).join('');
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        document.addEventListener('DOMContentLoaded', updateNavigation);
+    </script>
 </head>
 
 <body>
     <header>
         <div class="header-wrapper">
             <span class="menu-logo hp-viewport fas fa-ellipsis-h"></span>
-            <ul class="header-list">
-                <li class="header-content hp-viewport bike-header"><a href="#"><img class="logo" src="img/nyuad logo.png"></a></li>
-                <li class="header-content hp-viewport-hide"><a href="index.html">Home</a></li>
-                <li class="header-content hp-viewport-hide"><a href="about.html">About Us</a></li>
-                <li class="header-content hp-viewport-hide"><a href="bike.html">Book A Bike</a></li>
-                <li class="header-content hp-viewport-hide"><a href="contact.html">Contact Us</a></li>
-                <li class="header-content hp-viewport-hide"><a href="registration.html">Register</a></li>
-                <li class="header-content hp-viewport-hide"><a href="login.html">Sign In</a></li>
+            <ul id="navList" class="header-list">
+                <!-- Navigation items will be injected here based on login status -->
             </ul>
         </div>
     </header>

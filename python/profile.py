@@ -8,8 +8,8 @@ import os
 import sys
 
 
-users_csv = "users.csv" # USE ABSOLUTE PATH FOR LOCAL DEVELOPMENT
-session_csv = "sessions.csv"
+users_csv = "../data/users.csv" # USE ABSOLUTE PATH FOR LOCAL DEVELOPMENT
+session_csv = "../data/sessions.csv"
 
 filename = "users.txt"
 
@@ -23,9 +23,9 @@ def htmlhead():
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Bike</title>
-		<link rel="stylesheet" href="main.css">
-		<link rel="stylesheet" href="responsive.css">
-		<link rel="shortcut icon" type="image/jpg" href="img/nyuad logo.png">
+		<link rel="stylesheet" href="../static/css/main.css">
+		<link rel="stylesheet" href="../static/css/responsive.css">
+		<link rel="shortcut icon" type="image/jpg" href="../static/images/nyuad logo.png">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
 			crossorigin="anonymous" />
 		<link rel="preconnect" href="https://fonts.gstatic.com">
@@ -85,8 +85,7 @@ def get_email_from_session(session_id):
 
 
 def main():
-    session_id =get_session_id_from_cookie()
-    # session_id = "c3605e52-8e57-4d74-a963-e235ff129e4b"
+    session_id = get_session_id_from_cookie()
     if session_id:
         sys.stderr.write(os.path.dirname(os.path.abspath(__file__)))
         email = get_email_from_session(session_id)
@@ -99,13 +98,13 @@ def main():
 						<div class="header-wrapper">
 							<span class="menu-logo hp-viewport fas fa-ellipsis-h"></span>
 							<ul class="header-list">
-								<li class="header-content hp-viewport bike-header"><a href="#"><img class="logo" src="img/nyuad logo.png"></a></li>
-								<li class="header-content hp-viewport-hide"><a href="index.html">Home</a></li>
-								<li class="header-content hp-viewport-hide"><a href="about.html">About Us</a></li>
-								<li class="header-content hp-viewport-hide"><a href="bike.html">Book A Bike</a></li>
-								<li class="header-content hp-viewport-hide"><a href="contact.html">Contact Us</a></li>
+								<li class="header-content hp-viewport bike-header"><a href="#"><img class="logo" src="../static/images/nyuad logo.png"></a></li>
+								<li class="header-content hp-viewport-hide"><a href="../templates/index.html">Home</a></li>
+								<li class="header-content hp-viewport-hide"><a href="../templates/about.html">About Us</a></li>
+								<li class="header-content hp-viewport-hide"><a href="../templates/bike.html">Book A Bike</a></li>
+								<li class="header-content hp-viewport-hide"><a href="../templates/contact.html">Contact Us</a></li>
 								<li class="header-content hp-viewport-hide"></li>
-								<li class="header-content hp-viewport-hide"><a href="profile.py"><img src="img/dummy.png" class="profile-img">My Profile</a></li>
+								<li class="header-content hp-viewport-hide"><a href="../python/profile.py"><img src="../static/images/dummy.png" class="profile-img">My Profile</a></li>
 							</ul>
 						</div>
 					</header>
@@ -121,7 +120,7 @@ def main():
 
 						<section id="profile" class="about-section">
 							<div class="about-image">
-								<img src="img/faiza.jpeg" alt="Profile Picture">
+								<img src="../static/images/faiza.jpeg" alt="Profile Picture">
 							</div>
 							<div class="about-content">''')
                 print(f"<h2>My Profile</h2>")
@@ -137,9 +136,9 @@ def main():
 						</main>
                 ''')
             else:
-                errormessage("No user info stored in the database")
+                errormessage("No user info stored in the data")
         else:
-            errormessage("No user_id info stored in the database")
+            errormessage("No user_id info stored in the data")
     else:
         errormessage("No session_id info stored in the cookie")
     

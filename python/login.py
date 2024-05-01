@@ -10,8 +10,8 @@ import http.cookies
 import uuid
 
 # USE ABSOLUTE PATH FOR LOCAL DEVELOPMENT
-users_csv = "users.csv"
-session_csv = "sessions.csv"
+users_csv = "../data/users.csv"
+session_csv = "../data/sessions.csv"
 
 
 def hash_password(password):

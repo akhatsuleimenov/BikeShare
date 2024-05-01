@@ -10,9 +10,9 @@ import os
 import json
 
 # Path to the reservations file
-reservations_file = "reservations.txt"
-users_csv = "users.csv"
-session_csv = "sessions.csv"
+reservations_file = "../data/reservations.csv"
+users_csv = "../data/users.csv"
+session_csv = "../data/sessions.csv"
 
 
 def get_session_id_from_cookie():

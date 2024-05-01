@@ -10,7 +10,7 @@ import json
 import os
 
 
-session_csv = "sessions.csv"
+session_csv = "../data/sessions.csv"
 
 def is_session_valid(session_id):
     with open(session_csv, mode='r', newline='') as file:

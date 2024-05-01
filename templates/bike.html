@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NYUAD Bike Share - Rent a Bike</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../static/css/styles.css" />
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="../static/css/main.css" />
+    <link rel="stylesheet" href="../static/css/responsive.css" />
+    <meta
+      name="description"
+      content="Rent a bike at NYUAD. Convenient, eco-friendly transportation around campus."
+    />
+
+    <script defer>
+      function updateNavigation() {
+        fetch("../python/authenticate_user.py")
+          .then((response) => response.json())
+          .then((data) => {
+            const navList = document.getElementById("navList");
+            const links = data.isLoggedIn
+              ? [
+                  { href: "index.html", title: "Home" },
+                  { href: "about.html", title: "About" },
+                  { href: "bike.html", title: "Book a Bike" },
+                  { href: "contact.html", title: "Contact us" },
+                  { href: "../python/profile.py", title: "My Profile" },
+                ]
+              : [
+                  { href: "index.html", title: "Home" },
+                  { href: "about.html", title: "About" },
+                  { href: "contact.html", title: "Contact us" },
+                  { href: "login.html", title: "Sign In" },
+                  { href: "registration.html", title: "Register" },
+                ];
+
+            navList.innerHTML = links
+              .map(
+                (link) => `<li><a href="${link.href}">${link.title}</a></li>`
+              )
+              .join("");
+          })
+          .catch((error) => console.error("Error:", error));
+      }
+
+      document.addEventListener("DOMContentLoaded", updateNavigation);
+    </script>
+  </head>
+  <body>
+    <header>
+      <div class="header-wrapper">
+        <span class="menu-logo hp-viewport fas fa-ellipsis-h"></span>
+        <ul id="navList" class="header-list">
+          <!-- Navigation items will be injected here based on login status -->
+        </ul>
+      </div>
+    </header>
+    <main>
+      <section class="intro">
+        <h1>NYUAD Bike Share Program</h1>
+        <p>
+          Welcome to the NYUAD Bike Share. Use our bikes to travel conveniently
+          around campus.
+        </p>
+        <div class="bikes" style="display: flex; justify-content: space-around">
+          <article class="bike">
+            <img
+              src="../static/images/mountain-bike.jpg"
+              alt="Mountain Bike"
+              style="width: 100px; height: auto"
+            />
+            <h3>Mountain Bike</h3>
+            <p>Perfect for off-road or rough terrain adventures.</p>
+          </article>
+          <article class="bike">
+            <img
+              src="../static/images/road-bike.jpg"
+              alt="Road Bike"
+              style="width: 100px; height: auto"
+            />
+            <h3>Road Bike</h3>
+            <p>Great for speed and long-distance riding on smooth surfaces.</p>
+          </article>
+          <article class="bike">
+            <img
+              src="../static/images/hybrid-bike.jpg"
+              alt="Hybrid Bike"
+              style="width: 100px; height: auto"
+            />
+            <h3>Hybrid Bike</h3>
+            <p>
+              Combines the features of mountain and road bikes for versatility.
+            </p>
+          </article>
+        </div>
+      </section>
+      <section class="booking-form">
+        <div id="statusMessage"></div>
+        <h2>Reserve a Bike</h2>
+        <form
+          id="bikeForm"
+          action="../python/submit-reservation.py"
+          method="POST"
+        >
+          <div class="form-group">
+            <label for="bikeType">Choose Bike Type:</label>
+            <select name="bikeType" id="bikeType" class="form-control">
+              <option value="Mountain">Mountain Bike</option>
+              <option value="Road">Road Bike</option>
+              <option value="Hybrid">Hybrid Bike</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="date">Date:</label>
+            <input
+              type="date"
+              id="date"
+              name="date"
+              class="form-control"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="timeSlot">Time Slot:</label>
+            <select name="timeSlot" id="timeSlot" class="form-control">
+              <option value="morning">Morning (8 AM - 12 PM)</option>
+              <option value="afternoon">Afternoon (12 PM - 4 PM)</option>
+              <option value="evening">Evening (4 PM - 8 PM)</option>
+            </select>
+          </div>
+          <input
+            type="submit"
+            id="submit"
+            class="btn btn-primary"
+            value="Book Now"
+          />
+        </form>
+      </section>
+    </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const submitButton = document.getElementById("submit");
+        const statusMessage = document.getElementById("statusMessage");
+
+        document
+          .getElementById("bikeForm")
+          .addEventListener("submit", function (event) {
+            event.preventDefault();
+            if (!submitButton.disabled) {
+              // Check if submit button is not disabled
+              var bikeType = document.getElementById("bikeType").value;
+              var timeSlot = document.getElementById("timeSlot").value;
+              var date = document.getElementById("date").value;
+              fetch("../python/submit-reservation.py", {
+                method: "POST",
+                body: new URLSearchParams({
+                  bikeType: bikeType,
+                  date: date,
+                  timeSlot: timeSlot,
+                }),
+                headers: {
+                  "Content-Type": "application/x-www-form-urlencoded",
+                },
+              })
+                .then((response) => response.json())
+                .then((data) => {
+                  if (data.success) {
+                    // window.location.href = './bike.html';
+                    statusMessage.style.color = "green";
+                    statusMessage.textContent = data.message;
+                  } else {
+                    statusMessage.style.color = "red";
+                    statusMessage.textContent = data.message;
+                  }
+                })
+                .catch((error) => {
+                  console.log(response);
+                  console.error("Error:", error);
+                });
+            }
+          });
+      });
+    </script>
+  </body>
+</html>

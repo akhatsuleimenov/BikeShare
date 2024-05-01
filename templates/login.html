@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NYUAD Bike-Share Program Login</title>
+    <link rel="stylesheet" href="../static/css/style.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <h2>NYUAD Bike-Share Login</h2>
+      <img
+        src="../static/images/nyuad-logo.png"
+        alt="NYUAD Logo"
+        class="logo"
+      />
+      <form id="loginForm" action="login.py" method="post">
+        <div id="emailMessage"></div>
+        <div class="input-box">
+          <input
+            type="text"
+            placeholder="Enter your email"
+            id="email"
+            name="email"
+            required
+          />
+        </div>
+        <div class="input-box">
+          <input
+            type="password"
+            placeholder="Enter your password"
+            id="password"
+            name="password"
+            required
+          />
+        </div>
+        <div class="input-box button">
+          <input type="submit" id="submit" name="action" value="Login" />
+        </div>
+        <div class="text">
+          <h3>
+            Don't have an account? <a href="registration.html">Register now</a>
+          </h3>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const emailInput = document.getElementById("email");
+        const submitButton = document.getElementById("submit");
+        const emailMessageDisplay = document.getElementById("emailMessage");
+
+        function checkEmail() {
+          const email = emailInput.value;
+          if (!email.endsWith("@nyu.edu")) {
+            submitButton.disabled = true;
+            submitButton.style.backgroundColor = "grey";
+            emailMessageDisplay.style.color = "red";
+            emailMessageDisplay.textContent =
+              "Please use an NYU email address.";
+          } else {
+            submitButton.disabled = false;
+            submitButton.style.backgroundColor = ""; // Reset to default or specify a color
+            emailMessageDisplay.textContent = "";
+          }
+        }
+
+        // Use the input event to capture all changes
+        emailInput.addEventListener("input", checkEmail);
+
+        // Initial check in case the field is pre-populated or on page refresh with data
+        checkEmail();
+
+        document
+          .getElementById("loginForm")
+          .addEventListener("submit", function (event) {
+            event.preventDefault();
+            if (!submitButton.disabled) {
+              // Check if submit button is not disabled
+              const email = emailInput.value;
+              const password = document.getElementById("password").value;
+
+              fetch("../python/login.py", {
+                method: "POST",
+                body: new URLSearchParams({ email: email, password: password }),
+                headers: {
+                  "Content-Type": "application/x-www-form-urlencoded",
+                },
+              })
+                .then((response) => response.json())
+                .then((data) => {
+                  if (data.success) {
+                    window.location.href = "./../python/profile.py";
+                  } else {
+                    emailMessageDisplay.style.color = "red";
+                    emailMessageDisplay.textContent = data.message;
+                  }
+                })
+                .catch((error) => {
+                  console.log(response);
+                  console.error("Error:", error);
+                });
+            }
+          });
+      });
+    </script>
+  </body>
+</html>

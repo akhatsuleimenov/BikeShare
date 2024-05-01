@@ -15,8 +15,8 @@ import uuid
 import json
 
 
-users_csv = "users.csv"
-session_csv = "sessions.csv"
+users_csv = "../data/users.csv"
+session_csv = "../data/sessions.csv"
 
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
@@ -73,13 +73,13 @@ def main():
             print()
             print(json.dumps({"success": False, "message": "You are already registered, try to login."}))
         else:
-                register_user(first_name, last_name, email, password, year)
-                session_id = generate_session_id()
-                save_session_to_csv(session_id, email)
-                set_session_cookie(session_id)
-                print("Content-Type: application/json")
-                print()
-                print(json.dumps({"success": True, "message": "Registration successful"}))
+            register_user(first_name, last_name, email, password, year)
+            session_id = generate_session_id()
+            save_session_to_csv(session_id, email)
+            set_session_cookie(session_id)
+            print("Content-Type: application/json")
+            print()
+            print(json.dumps({"success": True, "message": "Registration successful"}))
     else:
         print("Content-Type: application/json")
         print()   

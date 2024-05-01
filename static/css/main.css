@@ -59,7 +59,7 @@ header {
   position: relative;
   background-position: center;
   background-size: cover;
-  background-image: url("../BikeShare/img/background.jpeg");
+  background-image: url("../images/background.jpeg");
   width: 100%; /* Set to 100% of the parent container */
   height: 500px; /* Adjust the height as needed */
 }

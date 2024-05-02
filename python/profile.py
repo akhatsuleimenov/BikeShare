@@ -58,7 +58,7 @@ def errormessage(message):
 
 def get_user_info(email):
     with open(users_csv, mode='r', newline='') as file:
-        reader = csv.DictReader(file, fieldnames=['first_name', 'last_name', 'email', 'hashed_password', 'year'])
+        reader = csv.DictReader(file, fieldnames=['first_name', 'last_name', 'email', 'hashed_password', 'year','account_type'])
         for row in reader:
             if row['email'] == email:
                 return row
@@ -127,9 +127,13 @@ def main():
                 print(f"<div class='contact-info'>")
                 print(f"<p>Name:{user_info['first_name']} {user_info['last_name']}</p>")
                 print(f"<p>Email: {user_info['email']}</p>")
-                print(f'<p>Age: {user_info["age"]}</p>')
-                print(f'<p>Age: {user_info["class_year"]}</p>')
-                print('<a href="logout.py"><button>Log out</button></a>')
+                print(f"<p>Class Year: {user_info['year']}</p>")
+                print("<p><a href='logout.py'><button>Log out</button></a><p>")
+                # print(f"<p>Account type: {user_info['account_type']}</p>")
+                
+                
+                if user_info['account_type'] == 'Admin':
+                    print('<a href="randomize.html"><button>Go to Admin Page</button></a>')
                 print('''
 						</div>
 						</div>

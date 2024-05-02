@@ -31,38 +31,46 @@
     />
 
     <script defer>
-      function updateNavigation() {
-        fetch("../python/authenticate_user.py")
-          .then((response) => response.json())
-          .then((data) => {
-            const navList = document.getElementById("navList");
-            const links = data.isLoggedIn
-              ? [
-                  { href: "index.html", title: "Home" },
-                  { href: "about.html", title: "About" },
-                  { href: "bike.html", title: "Book a Bike" },
-                  { href: "contact.html", title: "Contact us" },
-                  { href: "../python/profile.py", title: "My Profile" },
-                ]
-              : [
-                  { href: "index.html", title: "Home" },
-                  { href: "about.html", title: "About" },
-                  { href: "contact.html", title: "Contact us" },
-                  { href: "login.html", title: "Sign In" },
-                  { href: "registration.html", title: "Register" },
-                ];
-
-            navList.innerHTML = links
-              .map(
-                (link) => `<li><a href="${link.href}">${link.title}</a></li>`
-              )
-              .join("");
-          })
-          .catch((error) => console.error("Error:", error));
+      function checkLoginStatus() {
+          const cookies = document.cookie.split(';');
+          const sessionCookie = cookies.find(cookie => cookie.trim().startsWith('session_id='));
+          if (sessionCookie) {
+              const sessionValue = sessionCookie.split('=')[1];
+              updateNavigation(true);  // Assume user is logged in if session cookie exists
+          } else {
+              updateNavigation(false);  // Assume user is not logged in
+          }
       }
 
-      document.addEventListener("DOMContentLoaded", updateNavigation);
-    </script>
+          function updateNavigation(isLoggedIn) {
+          const navList = document.getElementById('navList');
+          const logoHTML = `<li class="header-content hp-viewport bike-header"><a href="#"><img class="logo" src="../static/images/nyuad logo.png"></a></li>`;
+
+          const links = isLoggedIn ? [
+              { href: 'index.html', title: 'Home' },
+              { href: 'about.html', title: 'About' },
+              { href: 'bike.html', title: 'Book a Bike' },
+              { href: 'contact.html', title: 'Contact us' },
+              { href: '../python/profile.py', title: 'My Profile', img: '../static/images/dummy.png' }  // Add an image for the profile link
+          ] : [
+              { href: 'index.html', title: 'Home' },
+              { href: 'about.html', title: 'About' },
+              { href: 'contact.html', title: 'Contact us' },
+              { href: 'login.html', title: 'Sign In' },
+              { href: 'registration.html', title: 'Register' }
+          ];
+
+          navList.innerHTML = logoHTML + links.map(link => {
+              if (link.img) {
+                  return `<li><a href="${link.href}"><img src="${link.img}" class="profile-img">${link.title}</a></li>`;
+              } else {
+                  return `<li><a href="${link.href}">${link.title}</a></li>`;
+              }
+          }).join('');
+      }
+      document.addEventListener('DOMContentLoaded', checkLoginStatus);
+
+      </script>
   </head>
 
   <body>

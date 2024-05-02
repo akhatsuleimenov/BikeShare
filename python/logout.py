@@ -49,7 +49,7 @@ def main():
     if session_id and delete_session_from_csv(session_id):
         clear_session_cookie()
         # Redirect immediately to the login page
-        print("Location: ../BikeShare/login.html")
+        print("Location: ../templates/login.html")
         print()  # End of headers
     else:
         # If the user is not logged in, show an error message

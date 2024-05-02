@@ -37,7 +37,7 @@ def set_session_cookie(session_id):
     """Print the HTTP header to set a session cookie."""
     cookie = http.cookies.SimpleCookie()
     cookie['session_id'] = session_id
-    cookie['session_id']['httponly'] = True
+    # cookie['session_id']['httponly'] = True
     cookie['session_id']['path'] = '/'
     print(cookie.output())
     return True
@@ -63,7 +63,7 @@ def main():
             else:
                 print("Content-Type: application/json")
                 print()  # End of headers
-                print(json.dumps({"success": False, "message": "can't set cookie"}))
+                print(json.dumps({"success": False, "message": "Error in setting cookie!"}))
 
         else:
             # Set HTTP header

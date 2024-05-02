@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bike</title>
+    <link rel="stylesheet" href="../static/css/main.css" />
+    <link rel="stylesheet" href="../static/css/responsive.css" />
+    <link
+      rel="shortcut icon"
+      type="image/jpg"
+      href="../../static/images/nyuad logo.png"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <script defer>
+      function checkLoginStatus() {
+          const cookies = document.cookie.split(';');
+          const sessionCookie = cookies.find(cookie => cookie.trim().startsWith('session_id='));
+          if (sessionCookie) {
+              const sessionValue = sessionCookie.split('=')[1];
+              updateNavigation(true);  // Assume user is logged in if session cookie exists
+          } else {
+              updateNavigation(false);  // Assume user is not logged in
+          }
+      }
+
+          function updateNavigation(isLoggedIn) {
+          const navList = document.getElementById('navList');
+          const logoHTML = `<li class="header-content hp-viewport bike-header"><a href="#"><img class="logo" src="../static/images/nyuad logo.png"></a></li>`;
+
+          const links = isLoggedIn ? [
+              { href: 'index.html', title: 'Home' },
+              { href: 'about.html', title: 'About' },
+              { href: 'bike.html', title: 'Book a Bike' },
+              { href: 'contact.html', title: 'Contact us' },
+              { href: '../python/profile.py', title: 'My Profile', img: '../static/images/dummy.png' }  // Add an image for the profile link
+          ] : [
+              { href: 'index.html', title: 'Home' },
+              { href: 'about.html', title: 'About' },
+              { href: 'contact.html', title: 'Contact us' },
+              { href: 'login.html', title: 'Sign In' },
+              { href: 'registration.html', title: 'Register' }
+          ];
+
+          navList.innerHTML = logoHTML + links.map(link => {
+              if (link.img) {
+                  return `<li><a href="${link.href}"><img src="${link.img}" class="profile-img">${link.title}</a></li>`;
+              } else {
+                  return `<li><a href="${link.href}">${link.title}</a></li>`;
+              }
+          }).join('');
+      }
+      document.addEventListener('DOMContentLoaded', checkLoginStatus);
+
+      </script>
+  </head>
+
+  <body>
+    <header>
+      <div class="header-wrapper">
+        <span class="menu-logo hp-viewport fas fa-ellipsis-h"></span>
+        <ul id="navList" class="header-list">
+          <!-- Navigation items will be injected here based on login status -->
+        </ul>
+      </div>
+    </header>
+
+    <main>
+      <div class="bgimg display-container">
+        <div class="display-middle center">
+          <span class="text-white" style="font-size: 100px"
+            >NYUAD<br />Bikeshare</span
+          >
+        </div>
+      </div>
+
+      <div class="section-container">
+        <!-- Bike Quiz Section -->
+        <section id="bike-quiz" class="centered-section">
+            <h2>Bike Quiz</h2>
+            <form>
+                <h3>Question 1: What type of terrain will you mostly ride on?</h3>
+                <input type="radio" name="question1" value="a"> Mountain trails<br>
+                <input type="radio" name="question1" value="b"> Paved roads<br>
+                <input type="radio" name="question1" value="c"> Mixed terrain<br>
+    
+                <h3>Question 2: What is your primary goal with cycling?</h3>
+                <input type="radio" name="question2" value="a"> Off-road adventures<br>
+                <input type="radio" name="question2" value="b"> Speed and performance<br>
+                <input type="radio" name="question2" value="c"> Versatility and comfort<br>
+    
+                <h3>Question 3: How important is agility to you?</h3>
+                <input type="radio" name="question3" value="a"> Very important<br>
+                <input type="radio" name="question3" value="b"> Important, but not crucial<br>
+                <input type="radio" name="question3" value="c"> Not a priority<br>
+    
+                <button type="button" id="submitQuiz">Submit</button>
+            </form>
+            <div id="result"></div>
+        </section>
+
+        <script>
+            // Function to calculate the result based on user's answers
+            function calculateResult(answers) {
+                let mountainBikeScore = 0;
+                let roadBikeScore = 0;
+                let hybridBikeScore = 0;
+
+                for (let answer of answers) {
+                    if (answer === 'a') {
+                        mountainBikeScore++;
+                    } else if (answer === 'b') {
+                        roadBikeScore++;
+                    } else if (answer === 'c') {
+                        hybridBikeScore++;
+                    }
+                }
+
+                if (mountainBikeScore > roadBikeScore && mountainBikeScore > hybridBikeScore) {
+                    return 'Mountain Bike';
+                } else if (roadBikeScore > mountainBikeScore && roadBikeScore > hybridBikeScore) {
+                    return 'Road Bike';
+                } else {
+                    return 'Hybrid Bike';
+                }
+            }
+
+            // Function to handle submission of the quiz
+            function handleQuizSubmission() {
+                const question1 = document.querySelector('input[name="question1"]:checked').value;
+                const question2 = document.querySelector('input[name="question2"]:checked').value;
+                const question3 = document.querySelector('input[name="question3"]:checked').value;
+
+                const answers = [question1, question2, question3];
+                const result = calculateResult(answers);
+
+                document.getElementById('result').innerHTML = `<span style="font-weight: bold; color: #57068c;">You should get a ${result}.</span>`;
+            }
+
+            // Attach event listener to the submit button
+            document.getElementById('submitQuiz').addEventListener('click', handleQuizSubmission);
+
+        </script>
+
+
+        <!-- Map Section -->
+        <section id="map" class="centered-section">
+          <h2>Map</h2>
+          <iframe
+            width="600"
+            height="450"
+            style="border: 0"
+            loading="lazy"
+            allowfullscreen
+            src="https://www.openstreetmap.org/export/embed.html?bbox=54.4075,24.5013,54.4572,24.5492&layer=mapnik&marker=24.5253,54.4372"
+          >
+          </iframe>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

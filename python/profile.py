@@ -129,7 +129,7 @@ def main():
                 print(f"<p>Email: {user_info['email']}</p>")
                 print(f'<p>Age: {user_info["age"]}</p>')
                 print(f'<p>Age: {user_info["class_year"]}</p>')
-		print('<a href="logout.py"><button>Log out</button></a>')
+                print('<a href="logout.py"><button>Log out</button></a>')
                 print('''
 						</div>
 						</div>

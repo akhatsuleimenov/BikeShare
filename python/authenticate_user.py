@@ -1,14 +1,9 @@
 #!/usr/bin/python3
 
-import cgi
 import http.cookies
-
 import csv
-
 import json
-
 import os
-
 
 session_csv = "../data/sessions.csv"
 

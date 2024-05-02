@@ -86,10 +86,10 @@
             </p>
             <p>
               <span style="font-size: 14px"
-                >To sign up, simply enter your email address below:</span
+                >To sign up, simply enter your contacts below:</span
               >
             </p>
-            <form action="/action_page.php" target="_blank">
+            <form id="contactForm" action="../python/contact.py" method="post">
               <p style="margin-bottom: 16px">
                 <input
                   style="
@@ -100,8 +100,9 @@
                   "
                   type="text"
                   placeholder="Name"
+                  id="name"
+                  name="name"
                   required
-                  name="Name"
                 />
               </p>
               <p style="margin-bottom: 16px">
@@ -114,6 +115,9 @@
                   "
                   type="email"
                   placeholder="Email"
+                  id="email"
+                  name="email"
+                  required
                 />
               </p>
               <p style="margin-bottom: 16px">
@@ -124,10 +128,11 @@
                     border: 1px solid #ccc;
                     border-radius: 5px;
                   "
-                  type="text"
-                  placeholder="Message \ Special requirements"
+                  type="tel"
+                  placeholder="0505555555"
+                  id="phone"
+                  name="phone"
                   required
-                  name="Message"
                 />
               </p>
               <p style="text-align: center; margin-bottom: 16px">
@@ -141,8 +146,9 @@
                     border-radius: 5px;
                   "
                   type="submit"
+                  value="Submit"
                 >
-                  SEND MESSAGE
+                  SIGN UP
                 </button>
               </p>
             </form>

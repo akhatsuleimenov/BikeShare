@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NYUAD Bike Share - Select Students</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../static/css/styles.css"> 
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/main.css">
+    <link rel="stylesheet" href="../static/css/responsive.css">
+    <meta name="description" content="Rent a bike at NYUAD. Convenient, eco-friendly transportation around campus.">
+
+    <script defer>
+        function checkLoginStatus() {
+            const cookies = document.cookie.split(';');
+            const sessionCookie = cookies.find(cookie => cookie.trim().startsWith('session_id='));
+            if (sessionCookie) {
+                const sessionValue = sessionCookie.split('=')[1];
+                updateNavigation(true);  // Assume user is logged in if session cookie exists
+            } else {
+                updateNavigation(false);  // Assume user is not logged in
+            }
+        }
+  
+        function updateNavigation(isLoggedIn) {
+                const navList = document.getElementById('navList');
+                const logoHTML = `<li class="header-content hp-viewport bike-header"><a href="#"><img class="logo" src="../static/images/nyuad logo.png"></a></li>`;
+    
+                const links = isLoggedIn ? [
+                    { href: 'index.html', title: 'Home' },
+                    { href: 'about.html', title: 'About' },
+                    { href: 'bike.html', title: 'Book a Bike' },
+                    { href: 'contact.html', title: 'Contact us' },
+                    { href: '../python/profile.py', title: 'My Profile', img: '../static/images/dummy.png' }  // Add an image for the profile link
+                ] : [
+                    { href: 'index.html', title: 'Home' },
+                    { href: 'about.html', title: 'About' },
+                    { href: 'contact.html', title: 'Contact us' },
+                    { href: 'login.html', title: 'Sign In' },
+                    { href: 'registration.html', title: 'Register' }
+                ];
+    
+                navList.innerHTML = logoHTML + links.map(link => {
+                    if (link.img) {
+                        return `<li><a href="${link.href}"><img src="${link.img}" class="profile-img">${link.title}</a></li>`;
+                    } else {
+                        return `<li><a href="${link.href}">${link.title}</a></li>`;
+                    }
+                }).join('');
+            }
+        document.addEventListener('DOMContentLoaded', checkLoginStatus);
+    
+    </script>
+</head>
+<body>
+    <header>
+        <div class="header-wrapper">
+            <span class="menu-logo hp-viewport fas fa-ellipsis-h"></span>
+            <ul id="navList" class="header-list">
+                <!-- Navigation items will be injected here based on login status -->
+            </ul>
+        </div>
+    </header>
+    <main>
+        <section class="intro">
+            <h1>NYUAD BikeShare Filtering Algorithm</h1>
+            <p>Enter details to get students list to receive bike this week</p>
+        </section>
+        <section class="booking-form">
+            <div id="statusMessage"></div>
+            <form id="selectForm" action="submit-reservation.py" method="POST">
+                <div class="input-box">
+                    <label for="date">Number of mountain bike available:</label>
+                    <input type="number" id="mountainCount" name="mountainCount" class="form-control" required>
+                </div>
+                <div class="input-box">
+                    <label for="date">Number of road bike available:</label>
+                    <input type="number" id="roadCount" name="roadCount" class="form-control" required>
+                </div>
+                <div class="input-box">
+                    <label for="date">Number of hybrid bikes available:</label>
+                    <input type="number" id="hybridCount" name="hybridCount" class="form-control" required>
+                </div>
+                <input type="submit"  id="submit" class="btn btn-primary" value="Filter Student List">
+            </form>
+            <!-- Place to display the selected student list -->
+            <ul id="selectedStudentsList"></ul>
+        </section>
+    </main>
+    <script>
+        document.getElementById('selectForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const mountainCount = document.getElementById('mountainCount').value;
+            const roadCount = document.getElementById('roadCount').value;
+            const hybridCount = document.getElementById('hybridCount').value;
+            const statusMessageDisplay = document.getElementById('statusMessage');
+
+            fetch('../python/randomize.py', {
+                method: 'POST',
+                body: new URLSearchParams({ 'roadCount': roadCount, 'mountainCount': mountainCount, 'hybridCount': hybridCount }),
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const listElement = document.getElementById('selectedStudentsList');
+                listElement.innerHTML = '';  
+                if (data.success && data.students.length > 0) {
+                    console.log(data.students)
+                    statusMessageDisplay.textContent = 'Successfully Filtered Names. See emails below';
+                    statusMessageDisplay.style.color = 'green';
+                    data.students.forEach(student => {
+                    listElement.insertAdjacentHTML('beforeend', `
+                        <li style="color: black; text-align:left; font-weight: light; margin: 10px;">Email: ${student.email}, Bike Type: ${student.bike_type}</li>`);
+                    });
+                } else {
+                    listElement.textContent = 'Ooooops You Filtered out all names. Try again.';
+                    listElement.style.color = 'Red';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                statusMessageDisplay.textContent = 'Failed to Filter Names. Try again';
+                statusMessageDisplay.style.color = 'red';
+            });
+        });
+    </script>
+</body>
+</html>

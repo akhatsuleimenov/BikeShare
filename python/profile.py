@@ -128,12 +128,11 @@ def main():
                 print(f"<p>Name:{user_info['first_name']} {user_info['last_name']}</p>")
                 print(f"<p>Email: {user_info['email']}</p>")
                 print(f"<p>Class Year: {user_info['year']}</p>")
-                print("<p><a href='logout.py'><button style='background-color: purple; padding: 10px 20px; font-size: 16px; color: white; border: none; border-radius: 5px;'>Log out</button></a><p>")
-                # print(f"<p>Account type: {user_info['account_type']}</p>")
-                
                 
                 if user_info['account_type'] == 'Admin':
-                    print('<a href="randomize.html"><button>Go to Admin Page</button></a>')
+                    print('<a href="../templates/randomize.html"><button  style="background-color: purple; padding: 10px 20px; font-size: 16px; color: white; border: none; border-radius: 5px;">Select Bike riders</button></a>')
+                print("<p><a href='logout.py'><button style='background-color: purple; padding: 10px 20px; font-size: 16px; color: white; border: none; border-radius: 5px;'>Log out</button></a><p>")
+                
                 print('''
 						</div>
 						</div>
@@ -149,4 +148,4 @@ def main():
     
     htmltail()
 
-main() # type: ignore
+main()

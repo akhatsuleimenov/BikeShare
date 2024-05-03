@@ -128,7 +128,7 @@ def main():
                 print(f"<p>Name:{user_info['first_name']} {user_info['last_name']}</p>")
                 print(f"<p>Email: {user_info['email']}</p>")
                 print(f"<p>Class Year: {user_info['year']}</p>")
-                print("<p><a href='logout.py'><button>Log out</button></a><p>")
+                print("<p><a href='logout.py'><button style='background-color: purple; padding: 10px 20px; font-size: 16px; color: white; border: none; border-radius: 5px;'>Log out</button></a><p>")
                 # print(f"<p>Account type: {user_info['account_type']}</p>")
                 
                 

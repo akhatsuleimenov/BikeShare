@@ -1,5 +1,8 @@
 #!/usr/bin/python3
+
 import cgi
+import json
+
 
 def validate_data(name, email, phone):
     if not name or not email or not phone:
@@ -8,7 +11,6 @@ def validate_data(name, email, phone):
     return True
 
 def main():
-    print("Content-Type: text/html\n")
     form = cgi.FieldStorage()
     
     name = form.getvalue('name')
@@ -16,11 +18,15 @@ def main():
     phone = form.getvalue('phone')
     
     if validate_data(name, email, phone):
-        print("<h1>Thank You for contacting us!</h1>")
         with open("../data/contacts.csv", "a") as file:
             file.write(f"{name},{email},{phone}\n")
+        print("Content-Type: application/json")
+        print()  # End of headers
+        print(json.dumps({"success": True, "message": "Thank you for contacting us! We will get back to you soon."}))
     else:
-        print("<h1>Error: Please fill all fields correctly.</h1>")
+         print("Content-Type: application/json")
+         print()  # End of headers
+         print(json.dumps({"success": False, "message": "Try again contacting us!"}))
 
 if __name__ == "__main__":
     main()

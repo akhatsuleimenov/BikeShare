@@ -108,6 +108,7 @@
                 >To sign up, simply enter your contacts below:</span
               >
             </p>
+            <div id="statusMessage"></div>
             <form id="contactForm" action="../python/contact.py" method="post">
               <p style="margin-bottom: 16px">
                 <input
@@ -148,14 +149,14 @@
                     border-radius: 5px;
                   "
                   type="tel"
-                  placeholder="0505555555"
+                  placeholder="Enter your mobile number"
                   id="phone"
                   name="phone"
                   required
                 />
               </p>
               <p style="text-align: center; margin-bottom: 16px">
-                <button
+                <input
                   style="
                     width: calc(100% - 32px);
                     padding: 16px;
@@ -164,16 +165,61 @@
                     color: #fff;
                     border-radius: 5px;
                   "
+                  id="submit"
                   type="submit"
-                  value="Submit"
-                >
-                  SIGN UP
-                </button>
+                  value="Register for Newsletter"
+                />
               </p>
             </form>
           </div>
         </section>
       </div>
     </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const submitButton = document.getElementById("submit");
+        const statusMessage = document.getElementById("statusMessage");
+
+        document
+          .getElementById("contactForm")
+          .addEventListener("submit", function (event) {
+            event.preventDefault();
+            if (!submitButton.disabled) {
+              // Check if submit button is not disabled
+              var name = document.getElementById("name").value;
+              var email = document.getElementById("email").value;
+              var phone = document.getElementById("phone").value;
+              fetch("../python/contact.py", {
+                method: "POST",
+                body: new URLSearchParams({
+                  name: name,
+                  email: email,
+                  phone: phone,
+                  
+                }),
+                headers: {
+                  "Content-Type": "application/x-www-form-urlencoded",
+                },
+              })
+                .then((response) => response.json())
+                .then((data) => {
+                  if (data.success) {
+                    // window.location.href = './bike.html';
+                    statusMessage.style.color = "green";
+                    statusMessage.textContent = data.message;
+                  } else {
+                    statusMessage.style.color = "red";
+                    statusMessage.textContent = data.message;
+                  }
+                })
+                .catch((error) => {
+                  console.log(response);
+                  console.error("Error:", error);
+                });
+            }
+          });
+      });
+    </script>
   </body>
 </html>

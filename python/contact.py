@@ -22,11 +22,11 @@ def main():
             file.write(f"{name},{email},{phone}\n")
         print("Content-Type: application/json")
         print()  # End of headers
-        print(json.dumps({"success": True, "message": "Thank you for contacting us! We will get back to you soon."}))
+        print(json.dumps({"success": True, "message": "Thank you for signing up for our newsletter!."}))
     else:
          print("Content-Type: application/json")
          print()  # End of headers
-         print(json.dumps({"success": False, "message": "Try again contacting us!"}))
+         print(json.dumps({"success": False, "message": "Try again to sign up us!"}))
 
 if __name__ == "__main__":
     main()
